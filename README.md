@@ -12,6 +12,55 @@ This project is a **Task Management Application** built with **Django** that inc
 - Retrieve tasks assigned to a specific user
 - Task Completion Report and Worked Hours
 
+---
+
+## 📂 Project Structure
+
+```
+TaskManagement-Noviindus/
+├── users/                  # Authentication 
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py            # Custom User model with roles
+│   ├── serializers.py       # Serializers for User & Auth
+│   ├── urls.py              # App-specific routes
+│   ├── views.py             # API Views
+│
+├── config/                  # Django project configuration
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py          # Django settings 
+│   ├── urls.py              # Root URL configuration
+│   ├── wsgi.py
+│
+├── common/                  # Authentication 
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── cookie_auth.py       # Custom Cookie setup
+│   ├── models.py            
+│   ├── urls.py              
+│   ├── views.py
+├── tasks/                  # Task CRUD fuctionality 
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py            
+│   ├── serializers.py       # Serializers for User & Auth
+│   ├── urls.py              # App-specific routes
+│   ├── views.py             # API Views
+├── template/                #UI part 
+│   ├── include/             # Navbar, footbar, Error message ect.
+│   ├── layouts/             # for admin and super admin
+│   ├── adminside/           # All admin functionalities
+├── static/                  # CSS , js files 
+├── manage.py                # Django CLI entry point
+├── requirements.txt         # Project dependencies
+```
+
+---
+
+
 ## 🛠️ Setup Instructions
 
 ### 1. Prerequisites
@@ -31,6 +80,16 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
 ```
+
+## 🔥 Access Admin Dashboard
+
+[http://127.0.0.1:8000/api/v1/admin/super_admin_dash/](http://127.0.0.1:8000/api/v1/admin/super_admin_dash/)
+
+
+## 🔥 Redoc Doccumentation
+
+[http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc/)
+
 
 
 ### ✅ Admin Panel (Custom HTML Templates)
@@ -55,10 +114,6 @@ python manage.py createsuperuser
 | Admin      | Task management for assigned users, report view access                      |
 | User       | View/update own tasks, submit reports and worked hours                     |
 
-
-## 🔥 Access Admin Dashboard
-
-[http://127.0.0.1:8000/api/v1/admin/super_admin_dash/](http://127.0.0.1:8000/api/v1/admin/super_admin_dash/)
 
 
 
