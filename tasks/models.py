@@ -1,5 +1,5 @@
 from django.db import models
-from core_apps.users.models import User 
+from users.models import User 
 
 class Task(models.Model):
     STATUS_CHOICES = [

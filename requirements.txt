@@ -41,3 +41,4 @@ cryptography==44.0.2
 defusedxml==0.7.1
 watchfiles==1.0.5
 black==25.1.0
+djoser

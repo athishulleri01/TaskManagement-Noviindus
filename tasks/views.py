@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from .models import Task
 from .serializers import TaskSerializer, TaskStatusUpdateSerializer
 from django.contrib.auth.decorators import login_required
-from core_apps.users.models import User
+from users.models import User
 from django.http import HttpResponseForbidden
 
 

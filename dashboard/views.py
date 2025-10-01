@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from core_apps.users.models import User 
+from users.models import User 
 from django.contrib.auth import logout as django_logout
 from rest_framework_simplejwt.tokens import RefreshToken 
 from django.views.decorators.cache import never_cache
