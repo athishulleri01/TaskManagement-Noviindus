@@ -46,9 +46,9 @@ TaskManagement-Noviindus/
 │   ├── admin.py
 │   ├── apps.py
 │   ├── models.py            
-│   ├── serializers.py       # Serializers for User & Auth
+│   ├── serializers.py       # Serializers for task
 │   ├── urls.py              # App-specific routes
-│   ├── views.py             # API Views
+│   ├── views.py             
 ├── template/                #UI part 
 │   ├── include/             # Navbar, footbar, Error message ect.
 │   ├── layouts/             # for admin and super admin
