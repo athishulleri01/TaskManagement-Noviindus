@@ -1,0 +1,192 @@
+{% extends 'layouts/admin_main.html' %}
+{% load static %}
+
+{% block content %}
+<nav class="navbar navbar-light ">
+    <div class="container-fluid">
+        <form method="post" class="d-flex  ms-auto">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">User Details</h6>
+            
+        
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0" id="#table-id">
+                <thead>
+                <tr class="text-dark">
+                    <th scope="col">Id</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Date joined</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.mobile}}</td>
+                    <td>{{user.date_joined}}</td>
+                    
+                    
+            
+        
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if user_count > 6 %}
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if users.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ users.previous_page_number }}">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    {% endif %}
+                    {% for i in users.paginator.page_range %}
+                    {% if users.number == i %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ i }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if users.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ users.next_page_number }}">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1" aria-disabled="true">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% else %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/api/v1/admin/register/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Add User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+               
+                <div class="modal-body">
+                    <!-- Category Name -->
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" class="form-control" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile">Mobile No:</label>
+                        <input type="number" class="form-control" id="mobile" name="mobile" required>
+                    </div>
+                   
+                    <input type="text" class="form-control" value="user" id="role" name="role" hidden>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="re_password">re_password:</label>
+                        <input type="password" class="form-control" id="re_password" name="re_password" required>
+                    </div>
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("create-user-form");
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault(); 
+            e.stopPropagation(); 
+    
+            const formData = new FormData(form);
+    
+            const data = {
+                name: formData.get("name"),
+                username: formData.get("username"),
+                email: formData.get("email"),
+                mobile: formData.get("mobile"),
+                role: formData.get("role"),
+                password: formData.get("password"),
+                re_password: formData.get("re_password"),
+            };
+    
+            try {
+                const response = await fetch("http://localhost:8000/api/v1/admin/register/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+    
+                const result = await response.json();
+                if (response.ok) {
+                    alert("User created successfully!");
+                    location.reload();
+                    window.location.href = "{% url 'user_details' %}";
+                } else {
+                    alert("Error: " + JSON.stringify(result));
+                }
+            } catch (error) {
+                alert("Request failed: " + error.message);
+            }
+        });
+    });
+    </script>
+    
+    
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'layouts/superadmin_main.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="{% static 'css/admin/css/image_upload.css' %}" type="text/css">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<script src="script.js" defer></script>
+{% endblock %}
+
+{% block content %}
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+    <div id="datetime" class="text-right m-5" ></div>
+    <div class="row g-4">
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-user fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Users</p>
+                    <h6 class="mb-0">{{customers}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-user fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Admin</p>
+                    <h6 class="mb-0">{{customers}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-user fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total User</p>
+                    <h6 class="mb-0">{{customers}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Task</p>
+                    <h6 class="mb-0">₹{{total_amount}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-shopping-cart fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Order</p>
+                    <h6 class="mb-0">{{order_count}}</h6>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Sale & Revenue End -->
+<!-- Sales Chart Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div id="myPlot" style="width:100%;max-width:700px"></div>
+        </div>
+
+        <div class="col-sm-12 col-xl-6 ">
+            <canvas id="myChart" style="width:100%;max-width:600px" class="mt-4"></canvas>
+        </div>
+    </div>
+    <!-- Sales Chart End -->
+    {% endblock %}
+
+    {% block scripts %}
+   
+
+
+    </script>
+    {% endblock %}

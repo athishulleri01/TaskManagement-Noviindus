@@ -1,0 +1,170 @@
+{% extends 'layouts/superadmin_main.html' %}
+{% load static %}
+
+{% block content %}
+<nav class="navbar navbar-light ">
+    <div class="container-fluid">
+        <form method="post" class="d-flex  ms-auto">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Tasks</h6>
+            <button type="button" class="btn text-white mb-3" style="background-color:rgba(127, 173, 57, 1)"
+            data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add Task
+        </button>
+        
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0" id="#table-id">
+                <thead>
+                <tr class="text-dark">
+                    <th scope="col">Id</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Decription</th>
+                    <th scope="col">Assigned To</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Working hr</th>
+                    <th scope="col">Edit</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{task.title}}</td>
+                    <td>{{task.description}}</td>
+                    <td>{{task.assigned_to}}</td>
+                    <td>{{task.created_at}}</td>
+                    <td>{{task.due_date}}</td>
+                    <td>{{task.status}}</td>
+                    <td>{{task.worked_hours}}</td>
+                    <td><a href="">
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </a></td>
+        
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/api/v1/tasks/create/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Add User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+               
+                <div class="modal-body">
+                    
+                    <div class="form-group mb-2">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" name="title" id="title" required>
+                      </div>
+
+                      <div class="form-group mb-2">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
+                      </div>
+
+                      <div class="form-group mb-2">
+                        <label for="assigned_to">Assign To</label>
+                        <select class="form-control" name="assigned_to" id="assigned_to" required>
+                          {% for user in users %}
+                          <option value="{{ user.pkid }}">{{ user.username }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div class="form-group mb-2">
+                        <label for="due_date">Due Date</label>
+                        <input type="date" class="form-control" name="due_date" id="due_date" required>
+                      </div>
+                      {% comment %} <div class="form-group mb-2">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status" id="status" required>
+                          <option value="pending">Pending</option>
+                          <option value="in_progress">In Progress</option>
+                        </select>
+                      </div> {% endcomment %}
+                    </div>
+                    
+
+
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("create-user-form");
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault(); 
+            e.stopPropagation(); 
+    
+            const formData = new FormData(form);
+    
+            const data = {
+                title: formData.get("title"),
+                description: formData.get("description"),
+                assigned_to_id: formData.get("assigned_to"),
+                due_date: formData.get("due_date"),
+            };
+    
+            try {
+                const response = await fetch("http://localhost:8000/api/v1/api/v1/tasks/create/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+    
+                const result = await response.json();
+                if (response.ok) {
+                    alert("User created successfully!");
+                    location.reload();
+                    
+                } else {
+                    alert("Error: " + JSON.stringify(result));
+                }
+            } catch (error) {
+                alert("Request failed: " + error.message);
+            }
+        });
+    });
+    </script>
+    
+    
+{% endblock %}

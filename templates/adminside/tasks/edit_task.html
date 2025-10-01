@@ -1,0 +1,51 @@
+{% extends 'layouts/admin_main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="m-5">
+<form method="post">
+    <h2 class="text-center my-1 text-info" style="font-weight: bold;">
+        Edit Task : {{ task.title }}
+    </h2>
+    {% csrf_token %}
+    <label>Title</label>
+    <input type="text" name="title" value="{{ task.title }}" class="form-control" required>
+
+    <label>Description</label>
+    <textarea name="description" class="form-control" required>{{ task.description }}</textarea>
+
+    <label>Assigned To</label>
+    <select name="assigned_to" class="form-control">
+        {% for user in users %}
+            <option value="{{ user.pkid }}" >
+                {{ user.username }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Due Date</label>
+    <input type="date" name="due_date" value="{{ task.due_date|date:'Y-m-d' }}" class="form-control" required>
+
+    <label>Status</label>
+    <select name="status" class="form-control">
+        <option value="pending" {% if task.status == 'pending' %}selected{% endif %}>Pending</option>
+        <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+        <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
+    </select>
+
+    <br>
+    <button type="submit" class="btn btn-success">Save Changes</button>
+</form>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+</script>
+    
+    
+{% endblock %}
